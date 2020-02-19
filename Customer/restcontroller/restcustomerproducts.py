@@ -173,6 +173,7 @@ def vieworders(userid):
         listofpobjs.append(pobj)
     for i in set(listofpobjs):
         listofcleanpobj.append(get_clean_product_data(i))
+    #pmjk[hjphj[p
     return jsonify({'listoforders':listoforders,'listofpobjs':listofcleanpobj})
 
 
