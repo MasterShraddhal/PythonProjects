@@ -176,5 +176,7 @@ def vieworders(userid):
     #pmjk[hjphj[p
     return jsonify({'listoforders':listoforders,'listofpobjs':listofcleanpobj})
 
+# THis is rest controller
+
 
 
