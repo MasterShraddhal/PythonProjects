@@ -16,6 +16,8 @@ GET_SINGLE_PROD='http://localhost:5001/rest/user/getsingleproduct/'
 VIEW_ORDERS='http://localhost:5001/rest/user/vieworders/'
 
 # hi master shraddha djfhkj
+#atuuuuuuuuuuuu;llllllllllllllllllllll
+#bfhjfhjdsgfhjfhjdsgfhjsdgfhf
 
 @app.route("/user/search/product/<itemtype>", methods=["GET"])
 def searchdata(itemtype):
