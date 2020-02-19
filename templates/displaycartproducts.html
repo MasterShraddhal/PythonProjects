@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>User Display products</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/socket.io/2.2.0/socket.io.js" integrity="sha256-yr4fRk/GU1ehYJPAs8P4JlTgu0Hdsp4ZKrx8bDEDC3I=" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+
+</head>
+<body>
+
+
+ <nav class="navbar navbar-expand-lg navbar-light bg-light fixed">
+            <a class="navbar-brand" href="#"><b>Shopping cart</b></a>
+              <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+              </button>
+           <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav ml-auto">
+
+                 <li class="nav-item active" style="margin-right:40px">
+                     <a class="nav-link" href="#"><b>Logout</b> <span class="sr-only">(current)</span></a>
+                  </li>
+            </ul>
+         </div>
+        </nav>
+
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+
+  <div class="collapse navbar-collapse" >
+    <ul class="navbar-nav mr-auto ">
+      <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" href="#"  role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          Electronics
+        </a>
+        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+          <a class="dropdown-item" href="http://localhost:5000/user/search/product/mobile">Mobile</a>
+        </div>
+      </li>&emsp;&emsp;&emsp;
+
+        <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" href="#"  role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          Men
+        </a>
+        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+          <a class="dropdown-item" href="http://localhost:5000/user/search/product/shirts">Shirts</a>
+          <a class="dropdown-item" href="http://localhost:5000/user/search/product/pants">Pants</a>
+        </div>
+      </li>&emsp;&emsp;&emsp;
+         <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" href="#"  role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          Women
+        </a>
+        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+          <a class="dropdown-item" href="http://localhost:5000/user/search/product/kurti">Kurtis</a>
+          <a class="dropdown-item" href="http://localhost:5000/user/search/product/cosmetics">Cosmetics</a>
+        </div>
+      </li>&emsp;&emsp;&emsp;
+         <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" href="#"  role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          Home & Furniture
+        </a>
+        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+          <a class="dropdown-item" href="http://localhost:5000/user/search/product/bedsheet">Bedsheets</a>
+        </div>
+      </li>
+    </ul>
+  </div>
+</nav>
+
+
+<div class="container" style="margin-top:30px">
+    <br>
+    <form action="http://localhost:5000/user/product/placeorder" method="post">
+    {% for items in products %}
+    <div class="row" style="border-left: 4px solid #669999; background-color: lightgrey;">
+        <div class="col-md-4">
+            <br>
+                <img src="{{url_for('static',filename=items['prdimage'])}}">
+            <br>
+        </div>
+        <div class="col-md-8">
+            <br>
+            Product name : {{items['prdname']}}<br>
+            Product price : {{items['prdprice']}}<br>
+            Product desc : {{items['prddesc']}}<br>
+            <br><label>Qty</label>
+            <select id="cars" name="{{items['prdid']}}" >
+
+              <option value="{{items['pqty']}}"  selected>{{items['pqty']}}</option>
+
+              {% if items['prdqty'] > 10 %}
+              {% for items in range(1,11) %}
+                <option value="{{items['pqty']}}" >{{items}}</option>
+              {% endfor %}
+              {% elif items['prdqty'] == 0  %}
+                 {% for items in range(0) %}
+                <option value="{{items['pqty']}}"  >{{items}}</option>
+              {% endfor %}
+              {% else %}
+              {% for items in range(1,items['prdqty']+1) %}
+                <option value="{{items['pqty']}}"  >{{items}}</option>
+               {% endfor %}
+              {% endif %}
+            </select>
+            <span style="color:red">{{items['msg']}}</span>
+            <br>
+
+            <a href="http://localhost:5000/user/product/remove/{{items['prdid']}}"><button type="button" class="btn btn-primary btn-sm">Remove</button></a>
+            <br><br>
+        </div>
+        <div class="col-md-2 text-center">
+        </div>
+    </div><hr>
+    {% endfor %}
+        {% if flag %}
+            <button type="submit">Place Order</button>
+             {% else %}
+            <button type="submit" disabled>Place Order</button>
+             {% endif %}
+        </form>
+</div><br>
+ <div class="row">
+     <div class="col-md-4"></div>
+     <div class="col-md-4"></div>
+     <div class="col-md-4">
+         {% if products %}
+        Total Amount&nbsp;&nbsp;&#8377; {{totalamount}}&nbsp;
+
+
+         {% else %}
+            Empty cart
+         {% endif %}
+
+     </div>
+ </div>
+
+</body>
+</html>

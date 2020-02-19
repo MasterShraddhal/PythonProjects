@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Product list</title>
+       <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/socket.io/2.2.0/socket.io.js" integrity="sha256-yr4fRk/GU1ehYJPAs8P4JlTgu0Hdsp4ZKrx8bDEDC3I=" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+
+</head>
+<body>
+
+       <nav class="navbar navbar-expand-lg navbar-light bg-light">
+            <a class="navbar-brand" href="#"><b>Shopping cart</b></a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+
+           <div class="collapse navbar-collapse" id="navbarSupportedContent">
+    <ul class="navbar-nav ml-auto">
+        <form class="form-inline my-2 my-lg-0" action="http://localhost:5000/vendor/search" method="post">
+      <input class="form-control mr-sm-2" type="search" placeholder="Search"  aria-label="Search" name="searchitem">
+      <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+    </form>
+         <li class="nav-item active" style="margin-right:40px">
+             <a class="nav-link" href="#"><b>Logout</b> <span class="sr-only">(current)</span></a>
+      </li>
+
+    </ul>
+  </div>
+</nav>
+<hr>
+
+<div class="container" style="margin-top:30px">
+    <div class="row">
+        <div class="col-md-2"></div>
+        <div class="col-md-8"></div>
+        <div class="col-md-2 text-right">
+            <a href="http://localhost:5000/vendor/addproductlink"><button type="button" class="btn btn-primary">Add</button></a>
+        </div>
+    </div>
+    <br>
+    {% for items in products['data'] %}
+    <div class="row" style="border-left: 4px solid #669999; background-color: lightgrey;">
+        <div class="col-md-4">
+           <br>
+                <img src="{{url_for('static',filename='sample1.png')}}" alt="loading">
+            <br>
+        </div>
+        <div class="col-md-8">
+            <br>
+            Product name : {{items['prdname']}}<br>
+            Product price : {{items['prdprice']}}<br>
+            Product desc : {{items['prddesc']}}<br>
+            Product qnt : {{items['prdqty']}}<br><br>
+            <a href="http://localhost:5000/vendor/updateproduct/{{items['prdid']}}"><button type="button" class="btn btn-primary">Edit</button></a>
+            <a href="http://localhost:5000/vendor/deleteproduct/{{items['prdid']}}/{{ items['prdimage']}}"><button type="button" class="btn btn-primary">Delete</button></a>
+            <br><br>
+        </div>
+        <div class="col-md-2 text-center">
+        </div>
+    </div><hr>
+    {% endfor %}
+    <div class="row">
+        <div class="col-md-4"></div>
+        <div class="col-md-4 text-center">
+            {% if pagination > 0 %}
+            <a href="http://localhost:5000/vendor/product/previous">Previous</a>&nbsp;&nbsp;
+            {% endif %}
+
+            {% if products['data'] | length == 3 %}
+            <a href="http://localhost:5000/vendor/product/next">Next</a>
+            {% elif products['data'] | length == 0 %}
+            <h4>No data to display</h4>
+            {% endif %}
+        </div>
+        <div class="col-md-4"></div>
+    </div>
+
+</div>
+</body>
+</html>
