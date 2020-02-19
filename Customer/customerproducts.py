@@ -3,6 +3,8 @@ from PythonProjects.shoppingapplication.classfiles.customerinfo import app
 import requests
 import json
 
+
+
 SEARCH_DATA='http://localhost:5001/rest/user/product/'
 CART_DATA='http://localhost:5001/rest/user/product/addtocart/'
 DISPLAY_CART_PRODUCTS='http://localhost:5001/rest/user/product/'
@@ -12,6 +14,8 @@ ADD_CUST_ADDRESS='http://localhost:5001/rest/user/addaddress/'
 PLACE_ORDER='http://localhost:5001/rest/user/finalplaceorder/'
 GET_SINGLE_PROD='http://localhost:5001/rest/user/getsingleproduct/'
 VIEW_ORDERS='http://localhost:5001/rest/user/vieworders/'
+
+# hi master shraddha
 
 @app.route("/user/search/product/<itemtype>", methods=["GET"])
 def searchdata(itemtype):
